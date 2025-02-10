@@ -1,11 +1,11 @@
-
+from dotenv import load_dotenv
 import streamlit as st
 import os
 import google.generativeai as genai
 from googletrans import Translator  # Import translation module
 
 # Load environment variables
-
+load_dotenv()
 
 # Configure Gemini API
 genai.configure(api_key="AIzaSyBbc_9liLY5VVnkIbjT7Vg4U71PyD6vG2Q")
@@ -14,7 +14,7 @@ genai.configure(api_key="AIzaSyBbc_9liLY5VVnkIbjT7Vg4U71PyD6vG2Q")
 translator = Translator()
 
 # Initialize Streamlit app
-st.set_page_config(page_title="Telugu AI Chatbot", page_icon="🌍")
+st.set_page_config(page_title="Namaskarum andi na peru pedharasi peddhamma", page_icon="🌍")
 
 st.title("🗣️ Gemini AI Telugu Chatbot")
 

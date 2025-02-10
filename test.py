@@ -13,9 +13,9 @@ genai.configure(api_key="AIzaSyBbc_9liLY5VVnkIbjT7Vg4U71PyD6vG2Q")
 translator = Translator()
 
 # Initialize Streamlit app
-st.set_page_config(page_title="Namaskarum andi na peru pedharasi peddhamma", page_icon="🌍")
+st.set_page_config(page_title="Desha bhasalu andhu telugu lessa", page_icon="🌍")
 
-st.title("🗣️ Gemini AI Telugu Chatbot")
+st.title("🗣️ Namaskarum andi bagunnara na peru pedharasi peddhamma")
 
 # Initialize chat history
 if "messages" not in st.session_state:

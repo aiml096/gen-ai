@@ -1,11 +1,10 @@
-from dotenv import load_dotenv
+
 import streamlit as st
 import os
 import google.generativeai as genai
 from googletrans import Translator  # Import translation module
 
 # Load environment variables
-load_dotenv()
 
 # Configure Gemini API
 genai.configure(api_key="AIzaSyBbc_9liLY5VVnkIbjT7Vg4U71PyD6vG2Q")

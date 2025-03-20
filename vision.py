@@ -1,52 +1,46 @@
 from dotenv import load_dotenv
-
-load_dotenv()  # take environment variables from .env.
-
 import streamlit as st
 import os
-import pathlib
-import textwrap
 from PIL import Image
-
 import google.generativeai as genai
 
-from IPython.display import display
-from IPython.display import Markdown
+# Load environment variables
+load_dotenv()
 
-def to_markdown(text):
-  text = text.replace('•', '  *')
-  return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
+# Configure Gemini API
+api_key = "AIzaSyBfibfGmL8oDwnLQGd62iB6LXfTfNQQG38"
+if not api_key:
+    st.error("API key not found. Make sure to set GOOGLE_API_KEY in .env")
+    st.stop()
+genai.configure(api_key=api_key)
 
-os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key="AIzaSyBbc_9liLY5VVnkIbjT7Vg4U71PyD6vG2Q")
+# Initialize model
+model = genai.GenerativeModel('gemini-1.5-flash')
 
-
-model = genai.GenerativeModel('gemini-pro-vision')
-
-def get_gemini_response(input, image):
-    if input != "":
-       response = model.generate_content([input,image])
-    else:
-       response = model.generate_content(image)
-       
+# Function to get Gemini response
+def get_gemini_response(input_text, image):
+    response = model.generate_content([input_text, image] if input_text else [image])
     return response.text
 
+# Streamlit UI setup
 st.set_page_config(page_title="Gemini Image Describer")
-
 st.header("Gemini Application")
 
-input=st.text_input("Input Prompt: ",key="input")
+# User input
+input_text = st.text_input("Input Prompt:", key="input")
 
-upload_file = st.file_uploader("Choose an image....", type = ["jpg", "jpeg", "png"])
-image = ""
+# Image upload
+upload_file = st.file_uploader("Choose an image...", type=["jpg", "jpeg", "png"])
+image = None
 if upload_file is not None:
-   image = Image.open(upload_file)
-   st.image(image, caption = "Upload Image Here", use_column_width = True)
+    image = Image.open(upload_file)
+    st.image(image, caption="Uploaded Image", use_column_width=True)
 
-
-submit = st.button("tell me about the image")
-
-if submit:
-   response = get_gemini_response(input,image)
-   st.subheader("The response is:")
-   st.write(response)
+# Submit button
+if st.button("Tell me about the image"):
+    if not image:
+        st.warning("Please upload an image first.")
+    else:
+        response = get_gemini_response(input_text, image)
+        st.subheader("The response is:")
+        st.write(response)
